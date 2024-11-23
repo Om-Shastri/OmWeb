@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Spline from '@splinetool/react-spline/next';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,9 +26,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
+        <Spline
+          scene="https://prod.spline.design/Fm2oH0q1qSQyzm0J/scene.splinecode"
+          className="fixed top-0 left-0 w-full h-full -z-20"
+        />
         {children}
       </body>
     </html>
