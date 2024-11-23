@@ -12,16 +12,14 @@ export default function Home() {
           height={38}
           priority
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+        <h1 className="text-4xl font-bold">Om Shastri</h1>
+        <p className="text-lg">Welcome to my personal website! I'm a developer and tech enthusiast.</p>
+        <h2 className="text-2xl font-semibold">My Projects</h2>
+        <ul className="list-disc list-inside">
+          <li>Project 1 - A cool project description.</li>
+          <li>Project 2 - Another interesting project.</li>
+          <li>Project 3 - Yet another project.</li>
+        </ul>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
