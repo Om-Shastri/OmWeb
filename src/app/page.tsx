@@ -24,12 +24,12 @@ export default function Home() {
     },
     {
       icon: Linkedin,
-      href: "https://linkedin.com/in/om-shastri",
+      href: "https://linkedin.com/in/omshastri",
       label: "LinkedIn"
     },
     {
       icon: Github,
-      href: "https://github.com/omshastri",
+      href: "https://github.com/Om-Shastri",
       label: "GitHub"
     },
     {

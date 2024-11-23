@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
         <Spline
           scene="https://prod.spline.design/Fm2oH0q1qSQyzm0J/scene.splinecode"
