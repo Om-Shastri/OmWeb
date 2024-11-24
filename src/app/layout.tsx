@@ -17,6 +17,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Om Shastri",
   description: "Welcome to the personal website of Om Shastri, a tech enthusiast.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -26,6 +29,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+      </head>
       <body style={{ backgroundColor: 'black' }}>
         <Spline
           scene="https://prod.spline.design/Fm2oH0q1qSQyzm0J/scene.splinecode"
