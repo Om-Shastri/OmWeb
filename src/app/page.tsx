@@ -35,12 +35,6 @@ export default function Home() {
       isExternal: true
     },
     {
-      icon: FileText,
-      href: "https://drive.google.com/file/d/1UMrEd8E02CH0SGcyLiGNOwGW3DsQWY7T/view?usp=sharing",
-      label: "Resume",
-      isExternal: true
-    },
-    {
       icon: Folder,
       href: "/portfolio",
       label: "Portfolio",
