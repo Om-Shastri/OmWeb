@@ -36,7 +36,7 @@ export default function Home() {
     },
     {
       icon: FileText,
-      href: "/resume.pdf",
+      href: "https://drive.google.com/file/d/1g5kLTh6Xk2oGZEauo-ksj_6OagxZcyeq/view?usp=sharing",
       label: "Resume",
       isExternal: true
     },
