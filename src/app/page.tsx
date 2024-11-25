@@ -39,6 +39,12 @@ export default function Home() {
       href: "/portfolio",
       label: "Portfolio",
       isExternal: false
+    },
+    {
+      icon: FileText,
+      href: "https://oshastri.substack.com/?r=2hc232&utm_campaign=pub-share-checklist",
+      label: "Blog",
+      isExternal: true
     }
   ];
 
