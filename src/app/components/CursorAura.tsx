@@ -4,7 +4,6 @@ import { useEffect, useState, useRef } from 'react';
 
 export default function DynamicCursorAura() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [velocity, setVelocity] = useState({ dx: 0, dy: 0 });
   const [shape, setShape] = useState({ width: 150, height: 150 });
   const [intensity, setIntensity] = useState(0);
   const lastPos = useRef({ x: 0, y: 0 });
@@ -21,12 +20,6 @@ export default function DynamicCursorAura() {
       const speed = Math.sqrt(dx * dx + dy * dy) / dt;
       const angle = Math.atan2(dy, dx);
       
-      // Smoother velocity updates with more damping
-      setVelocity(prev => ({
-        dx: dx * 0.3 + prev.dx * 0.7,
-        dy: dy * 0.3 + prev.dy * 0.7
-      }));
-
       // Gentler shape deformation
       const baseSize = 120;
       const stretchFactor = Math.min(Math.abs(speed) * 0.15, 50);
