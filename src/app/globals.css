@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --transition-duration: 500ms;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,4 +19,47 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  /* Ensure smooth transitions for background color changes */
+  transition: background-color var(--transition-duration) ease-in-out;
+}
+
+/* Page Transition Utilities */
+@layer utilities {
+  .page-transition-enter {
+    opacity: 0;
+  }
+  
+  .page-transition-enter-active {
+    opacity: 1;
+    transition: opacity var(--transition-duration) ease-in-out;
+  }
+  
+  .page-transition-exit {
+    opacity: 1;
+  }
+  
+  .page-transition-exit-active {
+    opacity: 0;
+    transition: opacity var(--transition-duration) ease-in-out;
+  }
+}
+
+/* Ensure smooth Spline transitions */
+canvas {
+  transition: opacity var(--transition-duration) ease-in-out;
+}
+
+/* Force black background during transitions */
+.transitioning {
+  background: #0a0a0a !important;
+}
+
+/* Prevent flash of wrong theme */
+.prevent-flash {
+  opacity: 0;
+  transition: opacity var(--transition-duration) ease-in-out;
+}
+
+.prevent-flash.loaded {
+  opacity: 1;
 }
