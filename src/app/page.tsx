@@ -8,35 +8,51 @@ import Link from "next/link";
 const TechText = ({ text }: { text: string }) => {
   return (
     <div className="relative">
-      <h1 className="text-7xl font-extrabold tracking-wide" style={{
-        fontFamily: "'Space Grotesk', sans-serif",
-        WebkitTextStroke: '1px rgba(255,255,255,0.8)',
-        WebkitTextFillColor: 'transparent',
-        textShadow: `
-          0px 1px 0px rgba(255,255,255,0.3),
-          0px 2px 0px rgba(255,255,255,0.2),
-          0px 3px 0px rgba(255,255,255,0.1),
-          0px 4px 8px rgba(0,0,0,0.6)
-        `,
-        filter: 'brightness(0.9) contrast(1.2)'
-      }}>
-        {text.split('').map((char: string, i: number) => (
-          <span 
-            key={i}
-            className="inline-block relative transition-colors duration-200"
-            style={{
-              transform: `translate3d(0, ${Math.sin(i * 0.5) * 2}px, 0)`,
-            }}
-          >
-            {char}
-          </span>
-        ))}
+      <h1 
+        className="text-7xl font-extrabold tracking-wider" 
+        style={{
+          fontFamily: "'Playfair Display', serif",
+          background: `
+            linear-gradient(
+              90deg,
+              #E8E8E8 0%,
+              #FFFFFF 15%,
+              #F5F5F5 25%,
+              #FAFAFA 35%,
+              #E0E0E0 45%,
+              #FFFFFF 55%,
+              #D8D8D8 65%,
+              #F0F0F0 75%,
+              #E6E6E6 85%,
+              #FFFFFF 100%
+            )
+          `,
+          backgroundSize: '400% auto',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          letterSpacing: '0.05em',
+          animation: 'silverflow 8s linear infinite',
+          filter: 'drop-shadow(0 1px 2px rgba(150,150,150,0.2))'
+        }}
+      >
+        {text}
       </h1>
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%)',
-        filter: 'blur(4px)',
-        transform: 'translateY(4px)'
-      }} />
+      <style jsx>{`
+        @keyframes silverflow {
+          0% {
+            background-position: 0% 50%;
+            filter: brightness(100%) contrast(100%);
+          }
+          50% {
+            background-position: 100% 50%;
+            filter: brightness(110%) contrast(110%);
+          }
+          100% {
+            background-position: 0% 50%;
+            filter: brightness(100%) contrast(100%);
+          }
+        }
+      `}</style>
     </div>
   );
 };
