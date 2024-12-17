@@ -14,6 +14,26 @@ export default function SplineBackground() {
     if (containerRef.current) {
       containerRef.current.style.position = 'fixed';
     }
+
+    const removeWatermark = () => {
+      const watermarkElement = document.querySelector('a[href*="spline"]');
+      if (watermarkElement) {
+        watermarkElement.remove();
+      }
+    };
+
+    removeWatermark();
+
+    const observer = new MutationObserver((mutations) => {
+      removeWatermark();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    return () => observer.disconnect();
   }, [pathname]);
 
   const onLoad = (splineApp: unknown) => {
@@ -23,7 +43,7 @@ export default function SplineBackground() {
   };
 
   return (
-    <div ref={containerRef} className="fixed top-0 left-0 w-full h-full -z-20">
+    <div ref={containerRef} className="fixed top-0 left-0 w-full h-full -z-20 opacity-40">
       <Spline 
         scene="https://prod.spline.design/28NJ03GramK8JYaV/scene.splinecode"
         onLoad={onLoad}
