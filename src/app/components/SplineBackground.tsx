@@ -16,7 +16,7 @@ export default function SplineBackground() {
     }
   }, [pathname]);
 
-  const onLoad = (splineApp: any) => {
+  const onLoad = (splineApp: unknown) => {
     if (!spline) {
       setSpline(splineApp);
     }

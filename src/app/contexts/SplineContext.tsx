@@ -1,17 +1,16 @@
 'use client';
 
 import React, { createContext, useContext, useState } from 'react';
-import type Spline from '@splinetool/react-spline';
 
 interface SplineContextType {
-  spline: any | null;
-  setSpline: (spline: any) => void;
+  spline: unknown;
+  setSpline: (spline: unknown) => void;
 }
 
 const SplineContext = createContext<SplineContextType | null>(null);
 
 export function SplineProvider({ children }: { children: React.ReactNode }) {
-  const [spline, setSpline] = useState<any | null>(null);
+  const [spline, setSpline] = useState<unknown | null>(null);
 
   return (
     <SplineContext.Provider value={{ spline, setSpline }}>
