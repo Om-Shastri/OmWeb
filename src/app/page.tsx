@@ -1,42 +1,61 @@
 'use client';
 
 import React from "react";
-import { Twitter, FileText, Github, Linkedin, Folder } from "lucide-react";
-import Spline from "@splinetool/react-spline/next";
+import { Folder } from "lucide-react";
 import Link from "next/link";
+import { XLogo } from './components/XLogo';
+import { LinkedInLogo } from './components/LinkedInLogo';
+import { GitHubLogo } from './components/GitHubLogo';
+import { BlogLogo } from './components/BlogLogo';
 
 const TechText = ({ text }: { text: string }) => {
   return (
     <div className="relative">
-      <h1 className="text-7xl font-extrabold tracking-wide" style={{
-        fontFamily: "'Space Grotesk', sans-serif",
-        WebkitTextStroke: '1px rgba(255,255,255,0.8)',
-        WebkitTextFillColor: 'transparent',
-        textShadow: `
-          0px 1px 0px rgba(255,255,255,0.3),
-          0px 2px 0px rgba(255,255,255,0.2),
-          0px 3px 0px rgba(255,255,255,0.1),
-          0px 4px 8px rgba(0,0,0,0.6)
-        `,
-        filter: 'brightness(0.9) contrast(1.2)'
-      }}>
-        {text.split('').map((char: string, i: number) => (
-          <span 
-            key={i}
-            className="inline-block relative transition-colors duration-200"
-            style={{
-              transform: `translate3d(0, ${Math.sin(i * 0.5) * 2}px, 0)`,
-            }}
-          >
-            {char}
-          </span>
-        ))}
+      <h1 
+        className="text-7xl font-extrabold tracking-wider" 
+        style={{
+          fontFamily: "'Playfair Display', serif",
+          background: `
+            linear-gradient(
+              90deg,
+              #E8E8E8 0%,
+              #FFFFFF 15%,
+              #F5F5F5 25%,
+              #FAFAFA 35%,
+              #E0E0E0 45%,
+              #FFFFFF 55%,
+              #D8D8D8 65%,
+              #F0F0F0 75%,
+              #E6E6E6 85%,
+              #FFFFFF 100%
+            )
+          `,
+          backgroundSize: '400% auto',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          letterSpacing: '0.05em',
+          animation: 'silverflow 8s linear infinite',
+          filter: 'drop-shadow(0 1px 2px rgba(150,150,150,0.2))'
+        }}
+      >
+        {text}
       </h1>
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%)',
-        filter: 'blur(4px)',
-        transform: 'translateY(4px)'
-      }} />
+      <style jsx>{`
+        @keyframes silverflow {
+          0% {
+            background-position: 0% 50%;
+            filter: brightness(100%) contrast(100%);
+          }
+          50% {
+            background-position: 100% 50%;
+            filter: brightness(110%) contrast(110%);
+          }
+          100% {
+            background-position: 0% 50%;
+            filter: brightness(100%) contrast(100%);
+          }
+        }
+      `}</style>
     </div>
   );
 };
@@ -44,47 +63,44 @@ const TechText = ({ text }: { text: string }) => {
 export default function Home() {
   const links = [
     {
-      icon: Twitter,
+      icon: XLogo,
       href: "https://x.com/OmShastri123",
-      label: "Twitter",
+      label: "X",
       isExternal: true,
     },
     {
-      icon: Linkedin,
+      icon: LinkedInLogo,
       href: "https://linkedin.com/in/omshastri",
       label: "LinkedIn",
       isExternal: true,
     },
     {
-      icon: Github,
+      icon: GitHubLogo,
       href: "https://github.com/Om-Shastri",
       label: "GitHub",
       isExternal: true,
+    },
+    {
+      icon: BlogLogo,
+      href: "/blog",
+      label: "Omnibus",
+      isExternal: false,
     },
     {
       icon: Folder,
       href: "/portfolio",
       label: "Portfolio",
       isExternal: false,
-    },
-    {
-      icon: FileText,
-      href: "https://oshastri.substack.com/?r=2hc232&utm_campaign=pub-share-checklist",
-      label: "Blog",
-      isExternal: true,
+      prefetch: true,
     },
   ];
 
   return (
     <main className="relative min-h-screen">
-      <div className="fixed top-0 left-0 w-full h-full -z-20">
-        <Spline scene="https://prod.spline.design/28NJ03GramK8JYaV/scene.splinecode" />
-      </div>
-
-      <div className="flex flex-col items-center justify-center min-h-screen p-8 space-y-12">
+      <div className="flex flex-col items-center justify-center min-h-screen p-8">
         <TechText text="Om Shastri" />
 
-        <div className="flex space-x-8">
+        <div className="flex items-center justify-center space-x-8 mt-16">
           {links.map(({ icon: Icon, href, label, isExternal }) => {
             const LinkComponent = isExternal ? 'a' : Link;
             const linkProps = isExternal 
@@ -96,10 +112,19 @@ export default function Home() {
                 key={label}
                 href={href}
                 {...linkProps}
-                className="transform hover:scale-105 text-white/70 hover:text-white/90 transition-all duration-200"
+                className="transform hover:scale-105 transition-all duration-200"
                 aria-label={label}
               >
-                <Icon size={32} />
+                <div 
+                  style={{
+                    color: '#E8E8E8',
+                    filter: 'drop-shadow(0 1px 2px rgba(150,150,150,0.2))',
+                    transition: 'all 0.2s ease'
+                  }}
+                  className="hover:brightness-125 flex items-center justify-center"
+                >
+                  <Icon size={32} />
+                </div>
               </LinkComponent>
             );
           })}

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import CursorAura from './components/CursorAura';
+import RouteTransition from './components/RouteTransition';
+import BackgroundWrapper from './components/BackgroundWrapper';
+import { SplineProvider } from './contexts/SplineContext';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,8 +37,13 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
       </head>
       <body style={{ backgroundColor: 'black' }}>
-        <CursorAura />
-        {children}
+        <SplineProvider>
+          <BackgroundWrapper />
+          <CursorAura />
+          <RouteTransition>
+            {children}
+          </RouteTransition>
+        </SplineProvider>
       </body>
     </html>
   );
