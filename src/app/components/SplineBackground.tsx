@@ -24,7 +24,7 @@ export default function SplineBackground() {
 
     removeWatermark();
 
-    const observer = new MutationObserver((mutations) => {
+    const observer = new MutationObserver(() => {
       removeWatermark();
     });
 
