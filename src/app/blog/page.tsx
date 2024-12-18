@@ -12,6 +12,7 @@ interface BlogPost {
   category: 'Research' | 'Investing' | 'Projects' | 'Literature';
   tags: string[];
   slug: string;
+  association?: string;
 }
 
 interface ProjectPost extends BlogPost {
@@ -38,7 +39,7 @@ function BlogCard({ post }: { post: BlogPost }) {
           {post.title}
         </h2>
         <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-300 backdrop-blur-[2px] group-hover:bg-gray-800/40">
-          {post.category}
+          {(post as ProjectPost).association || post.category}
         </span>
       </div>
       <p className="text-sm text-gray-400 mb-2.5">
@@ -153,32 +154,34 @@ export default function Blog() {
   const posts: (BlogPost | ProjectPost)[] = [
     // Investing Posts
     {
-      title: "Why Mercor's AI-First Hiring Platform Caught My Attention",
-      excerpt: "My investment thesis on Mercor: How their AI-driven approach to technical hiring, impressive growth to 7-figure ARR, and ambitious vision for the future of recruitment resonated with me...",
-      date: "March 15, 2024",
+      title: "Why I Angeled Into Mercor: Revolutionizing Hiring with AI",
+      excerpt: "When three Thiel Fellows dropped out of Harvard and Georgetown to build an AI hiring platform, they weren't just creating another HR tool – they were reimagining how talent is discovered. Mercor's AI models have already analyzed thousands of candidates, but what truly caught my attention was their contrarian approach: offering enterprise-grade interview feedback freely to everyone, using this data flywheel to build increasingly sophisticated hiring models. With backing from Peter Thiel, Jack Dorsey, and Adam D'Angelo, Mercor is positioned to transform hiring from a biased, inefficient process into a true meritocracy powered by AI.",
+      date: "December 2024",
       readTime: "4 min read",
       category: "Investing",
-      tags: ["Angel Investing", "Startups", "AI", "HR Tech"],
-      slug: "why-i-invested-in-mercor"
+      tags: ["Startups", "AI", "HR Tech"],
+      slug: "why-i-invested-in-mercor",
+      association: "Angel Investment"
     },
     {
-      title: "Betting on Automorphic's Vision for AI Development",
-      excerpt: "What drew me to invest in Automorphic: Their innovative approach to LLM knowledge infusion, strong technical founding team, and potential to reshape how we build AI systems...",
-      date: "March 10, 2024",
+      title: "Why I Angeled Into Automorphic: Democratizing LLM Development",
+      excerpt: "I first met Govind during a NASA internship when we were 16 – he was already building neural nets while the rest of us were still learning Python. Several years later, when he and his Georgia Tech roommates were building a platform to turn months-long LLM development into a minutes-long workflow, I knew I had to be involved. Their contrarian bet? That specialized, efficient LLMs will outperform massive models. Their platform enables developers to infuse domain knowledge with just 10 examples, and with backing from Paul Graham, Govind becoming a Thiel Fellow, and joining YC S23, Automorphic is proving that sometimes, smaller and smarter beats bigger.",
+      date: "August 2023",
       readTime: "5 min read",
       category: "Investing",
-      tags: ["Angel Investing", "Startups", "AI", "DevTools"],
-      slug: "investing-in-automorphic"
+      tags: ["Startups", "AI", "DevTools"],
+      slug: "why-i-invested-in-automorphic",
+      association: "Angel Investment"
     },
 
     // Project Posts (keep existing project posts)
     {
-      title: "A Hitchhiker's Guide to 𝕏",
-      excerpt: "xAI Hackathon Winner: Built an intelligent knowledge graph system using Grok's embedding model to transform 𝕏 posts into an explorable universe of interconnected ideas and insights, enabling users to navigate the depths of knowledge on the platform.",
+      title: "A Hitchhiker's Guide to X",
+      excerpt: "xAI Hackathon Winner; Grok's embedding model transforms Twitter/X posts into a personalized, ever-expanding knowledge graph that lets users explore ideas and insights in depth, sparking new inspirations.",
       date: "October 2024",
       readTime: "Project",
       category: "Projects",
-      tags: ["AI", "LLM", "Python", "Knowledge Graphs"],
+      tags: ["AI", "LLM", "Knowledge Graphs"],
       slug: "hitchhikers-guide-to-x",
       association: "xAI Hackathon",
       links: {
@@ -188,13 +191,13 @@ export default function Blog() {
     },
     {
       title: "PlanForm",
-      excerpt: "First-ever AI agent for educators that enables one-click personalization of learning activities. Nova, our AI assistant, helps create and tailor content based on student profiles, interests, and educational performance while maintaining FERPA compliance.",
+      excerpt: "Empowering educators with AI-driven, one click personalization, PlanForm transforms students' learning experiences through dynamic personalization of activities powered by fine-tuned LLMs.",
       date: "June 2024 - September 2024",
       readTime: "Project",
       category: "Projects",
-      tags: ["AI", "LLM", "EdTech", "Personalization"],
+      tags: ["AI", "LLM", "EdTech"],
       slug: "planform",
-      association: "Summer Project",
+      association: "Venture",
       links: {
         website: "https://planform.app",
         demo: "https://www.youtube.com/watch?v=1vhO_FuPjrs"
@@ -202,11 +205,11 @@ export default function Blog() {
     },
     {
       title: "Rabbit-Hole",
-      excerpt: "An AI learning companion that recreates the experience of diving deep into fascinating topics. Features dynamic content generation and a novel text-to-Manim model for creating educational animations on the fly.",
+      excerpt: "Rabbit-Hole is an AI-driven learning tool that simulates the immersive experience of \"going down a rabbit hole,\" guiding users through layered topics and questions adapting to user curiosity by continuously offering deeper insights and related content. The tool integrates with a text-to-Manim model, enabling visual learning through educational animations.",
       date: "September 2024",
       readTime: "Project",
       category: "Projects",
-      tags: ["AI", "LLM", "Python", "Education"],
+      tags: ["AI", "LLM", "EdTech"],
       slug: "rabbit-hole",
       association: "HackMIT",
       links: {
@@ -219,7 +222,7 @@ export default function Blog() {
       date: "January 2023",
       readTime: "Research Paper",
       category: "Research",
-      tags: ["Astronomy", "Robotics", "Instrumentation", "Published"],
+      tags: ["Astronomy", "Robotics", "Instrumentation"],
       slug: "picsarr-polarimeter",
       association: "MNRAS",
       links: {
@@ -227,17 +230,30 @@ export default function Blog() {
       }
     } as ProjectPost,
     {
-      title: "MosquitoEdge",
-      excerpt: "Published research on an edge computing device for real-time mosquito threat prediction. Built an 86% accurate Random Forest model combining wingbeat sound recognition with satellite data to create an early warning system for disease vectors.",
+      title: "MOSQUITO EDGE: An Edge-Intelligent Real-Time Mosquito Threat Prediction Using an IoT-Enabled Hardware System",
+      excerpt: "Edge computing device with wingbeat sound recognition & real time satellite data for real-time malaria & dengue tracking.",
       date: "August 2021 - October 2022",
       readTime: "Research Paper",
       category: "Research",
-      tags: ["Robotics", "ML", "Healthcare", "Published"],
+      tags: ["AI", "Edge Computing", "Robotics"],
       slug: "mosquito-edge",
-      association: "NASA",
+      association: "MDPI",
       links: {
         poster: "https://drive.google.com/file/d/1xhdNR8FCIJGqksykH5KliomueXmd2JuX/view?usp=sharing",
         paper: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8780188/"
+      }
+    } as ProjectPost,
+    {
+      title: "Hephaestus Robotics",
+      excerpt: "Led a team of 12 to design and build an underwater ROV (Remotely Operated Vehicle) for marine research and conservation. The ROV features advanced capabilities including 3D scanning of coral reefs, laser-based distance measurement, and precision manipulation tools.",
+      date: "December 2020 - June 2023",
+      readTime: "Project",
+      category: "Projects",
+      tags: ["AI", "Robotics", "Computer Vision"],
+      slug: "hephaestus-robotics",
+      association: "MATE ROV",
+      links: {
+        paper: "https://20693798.fs1.hubspotusercontent-na1.net/hubfs/20693798/RN19%20X_Academy_Hephaestus_Robotics_TECHNICAL_DOCUMENTATION_2023.pdf"
       }
     } as ProjectPost,
   ];
@@ -261,8 +277,8 @@ export default function Blog() {
           <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-center">
             Omnibus
           </h1>
-          <p className="text-gray-400 text-center mb-12 max-w-lg mx-auto">
-            This space is for those who, like me, are deeply curious in the future.
+          <p className="text-gray-400 text-center mb-12 w-full mx-auto">
+            This space is for those who, like me, are deeply curious about the future.
           </p>
 
           <div className="flex justify-center gap-2 mb-8 bg-black/20 backdrop-blur-sm p-1 rounded-lg">
