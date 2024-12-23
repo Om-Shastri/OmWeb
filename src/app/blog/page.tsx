@@ -163,7 +163,8 @@ export default function Blog() {
       slug: "why-i-invested-in-mercor",
       association: "Angel Investment"
     },
-    {
+    // Temporarily removed
+    /*{
       title: "Why I Angeled Into Automorphic: Democratizing LLM Development",
       excerpt: "I first met Govind during a NASA internship when we were 16 – he was already building neural nets while the rest of us were still learning Python. Several years later, when he and his Georgia Tech roommates were building a platform to turn months-long LLM development into a minutes-long workflow, I knew I had to be involved. Their contrarian bet? That specialized, efficient LLMs will outperform massive models. Their platform enables developers to infuse domain knowledge with just 10 examples, and with backing from Paul Graham, Govind becoming a Thiel Fellow, and joining YC S23, Automorphic is proving that sometimes, smaller and smarter beats bigger.",
       date: "August 2023",
@@ -172,7 +173,7 @@ export default function Blog() {
       tags: ["Startups", "AI", "DevTools"],
       slug: "why-i-invested-in-automorphic",
       association: "Angel Investment"
-    },
+    },*/
 
     // Project Posts (keep existing project posts)
     {

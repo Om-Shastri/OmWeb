@@ -64,14 +64,15 @@ export default function Portfolio() {
       logo: "/mercor.png",
       url: "https://mercor.com/"
     },
-    {
+    // Temporarily removed
+    /*{
       name: "Automorphic",
       round: "Series A",
       sectors: ["DevTools", "AI"],
       status: "Active",
       logo: "/automorphic.png",
       url: "https://automorphic.ai/"
-    }
+    }*/
   ];
 
   return (
