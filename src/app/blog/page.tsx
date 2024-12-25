@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import venturingIntoUnknownContent from './text/investinginunknown.txt';
 
 interface BlogPost {
   title: string;
   excerpt: string;
   date: string;
-  readTime: string;
+  readTime?: string;
   category: 'Research' | 'Investing' | 'Projects' | 'Literature';
   tags: string[];
   slug: string;
@@ -29,9 +30,50 @@ interface ProjectPost extends BlogPost {
 function BlogCard({ post }: { post: BlogPost }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const renderContent = () => {
+    if (post.category === 'Literature') {
+      const paragraphs = typeof post.excerpt === 'string' ? post.excerpt.split('\n\n') : [];
+      
+      return (
+        <div className="space-y-4">
+          {paragraphs.map((paragraph, index) => {
+            const trimmedParagraph = paragraph.trim();
+            if (!trimmedParagraph) return null;
+
+            // Handle numbered lists
+            if (/^\d+\.\s/.test(trimmedParagraph)) {
+              return (
+                <p key={index} className="text-gray-300 pl-6">
+                  {trimmedParagraph}
+                </p>
+              );
+            }
+            
+            // Handle section headers
+            if (trimmedParagraph.endsWith(':')) {
+              return (
+                <h3 key={index} className="text-lg font-semibold text-white">
+                  {trimmedParagraph}
+                </h3>
+              );
+            }
+            
+            // Regular paragraphs
+            return (
+              <p key={index} className="text-gray-300">
+                {trimmedParagraph}
+              </p>
+            );
+          })}
+        </div>
+      );
+    }
+    return <p>{post.excerpt}</p>;
+  };
+
   return (
     <div 
-      className="block border border-gray-800/40 rounded-md p-4 hover:border-gray-600/60 transition-all duration-300 bg-black/10 backdrop-blur-[2px] hover:bg-black/20 group cursor-pointer"
+      className="block border border-gray-800/40 rounded-md p-6 hover:border-gray-600/60 transition-all duration-300 bg-black/10 backdrop-blur-[2px] hover:bg-black/20 group cursor-pointer"
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <div className="flex items-center justify-between mb-2">
@@ -43,11 +85,11 @@ function BlogCard({ post }: { post: BlogPost }) {
         </span>
       </div>
       <p className="text-sm text-gray-400 mb-2.5">
-        {post.date} · {post.readTime}
+        {post.date}{post.readTime && ` · ${post.readTime}`}
       </p>
-      <p className={`text-sm text-gray-300 ${isExpanded ? '' : 'line-clamp-2'} mb-2.5`}>
-        {post.excerpt}
-      </p>
+      <div className={`text-sm ${isExpanded ? '' : 'line-clamp-3'} mb-2.5 overflow-hidden`}>
+        {renderContent()}
+      </div>
       <div className="flex flex-wrap items-center justify-between gap-1.5">
         <div className="flex flex-wrap items-center gap-1.5">
           {post.tags.map((tag) => (
@@ -86,7 +128,7 @@ function ProjectCard({ post }: { post: ProjectPost }) {
         )}
       </div>
       <p className="text-sm text-gray-400 mb-2.5">
-        {post.date}
+        {post.date}{post.readTime && ` · ${post.readTime}`}
       </p>
       <p className={`text-sm text-gray-300 ${isExpanded ? '' : 'line-clamp-2'} mb-2.5`}>
         {post.excerpt}
@@ -150,14 +192,27 @@ function TabButton({ active, onClick, children }: {
 
 export default function Blog() {
   const [activeTab, setActiveTab] = useState<'Research' | 'Investing' | 'Projects' | 'Literature'>('Projects');
-  
+
   const posts: (BlogPost | ProjectPost)[] = [
+    {
+      title: "Venturing Beyond Certainty: Zeckhauser's Unknown",
+      excerpt: venturingIntoUnknownContent,
+      date: "December 2024",
+      readTime: "8 min read",
+      category: "Literature",
+      tags: ["Investing", "Philosophy", "Decision Making"],
+      slug: "venturing-into-unknown",
+      association: "Article",
+      links: {
+        article: "https://scholar.harvard.edu/files/rzeckhauser/files/investing_in_unknown_and_unknowable.pdf"
+      }
+    } as ProjectPost,
     // Investing Posts
     {
       title: "Why I Angeled Into Mercor: Revolutionizing Hiring with AI",
       excerpt: "When three Thiel Fellows dropped out of Harvard and Georgetown to build an AI hiring platform, they weren't just creating another HR tool – they were reimagining how talent is discovered. Mercor's AI models have already analyzed thousands of candidates, but what truly caught my attention was their contrarian approach: offering enterprise-grade interview feedback freely to everyone, using this data flywheel to build increasingly sophisticated hiring models. With backing from Peter Thiel, Jack Dorsey, and Adam D'Angelo, Mercor is positioned to transform hiring from a biased, inefficient process into a true meritocracy powered by AI.",
       date: "December 2024",
-      readTime: "4 min read",
+      readTime: "2 min read",
       category: "Investing",
       tags: ["Startups", "AI", "HR Tech"],
       slug: "why-i-invested-in-mercor",
@@ -180,7 +235,7 @@ export default function Blog() {
       title: "A Hitchhiker's Guide to X",
       excerpt: "xAI Hackathon Winner; Grok's embedding model transforms Twitter/X posts into a personalized, ever-expanding knowledge graph that lets users explore ideas and insights in depth, sparking new inspirations.",
       date: "October 2024",
-      readTime: "Project",
+      readTime: "1 min read",
       category: "Projects",
       tags: ["AI", "LLM", "Knowledge Graphs"],
       slug: "hitchhikers-guide-to-x",
@@ -194,7 +249,7 @@ export default function Blog() {
       title: "PlanForm",
       excerpt: "Empowering educators with AI-driven, one click personalization, PlanForm transforms students' learning experiences through dynamic personalization of activities powered by fine-tuned LLMs.",
       date: "June 2024 - September 2024",
-      readTime: "Project",
+      readTime: "1 min read",
       category: "Projects",
       tags: ["AI", "LLM", "EdTech"],
       slug: "planform",
@@ -208,7 +263,7 @@ export default function Blog() {
       title: "Rabbit-Hole",
       excerpt: "Rabbit-Hole is an AI-driven learning tool that simulates the immersive experience of \"going down a rabbit hole,\" guiding users through layered topics and questions adapting to user curiosity by continuously offering deeper insights and related content. The tool integrates with a text-to-Manim model, enabling visual learning through educational animations.",
       date: "September 2024",
-      readTime: "Project",
+      readTime: "2 min read",
       category: "Projects",
       tags: ["AI", "LLM", "EdTech"],
       slug: "rabbit-hole",
@@ -221,7 +276,7 @@ export default function Blog() {
       title: "PICSARR: High-Precision Polarimetry Using CMOS Image Sensors",
       excerpt: "Developed a compact, high-performance astronomical polarimeter enabling precise measurements of stellar and planetary polarization. The instrument achieves high quantum efficiency and low noise using CMOS detectors, making it ideal for small telescopes up to 1m aperture.",
       date: "January 2023",
-      readTime: "Research Paper",
+      readTime: "1 min read",
       category: "Research",
       tags: ["Astronomy", "Robotics", "Instrumentation"],
       slug: "picsarr-polarimeter",
@@ -232,9 +287,9 @@ export default function Blog() {
     } as ProjectPost,
     {
       title: "MOSQUITO EDGE: An Edge-Intelligent Real-Time Mosquito Threat Prediction Using an IoT-Enabled Hardware System",
-      excerpt: "Edge computing device with wingbeat sound recognition & real time satellite data for real-time malaria & dengue tracking.",
+      excerpt: "Edge computing device that combines real-time wingbeat sound recognition with satellite data to track and predict malaria & dengue outbreaks. The system uses a novel ML architecture optimized for edge deployment, achieving 86% accuracy in species identification while consuming minimal power. Deployed in pilot programs across Southeast Asia, enabling early warning systems for disease control agencies.",
       date: "August 2021 - October 2022",
-      readTime: "Research Paper",
+      readTime: "2 min read",
       category: "Research",
       tags: ["AI", "Edge Computing", "Robotics"],
       slug: "mosquito-edge",
@@ -248,7 +303,7 @@ export default function Blog() {
       title: "Hephaestus Robotics",
       excerpt: "Led a team of 12 to design and build an underwater ROV (Remotely Operated Vehicle) for marine research and conservation. The ROV features advanced capabilities including 3D scanning of coral reefs, laser-based distance measurement, and precision manipulation tools.",
       date: "December 2020 - June 2023",
-      readTime: "Project",
+      readTime: "1 min read",
       category: "Projects",
       tags: ["AI", "Robotics", "Computer Vision"],
       slug: "hephaestus-robotics",
