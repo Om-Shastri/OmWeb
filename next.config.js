@@ -5,6 +5,9 @@ const nextConfig = {
       test: /\.txt$/,
       use: 'raw-loader'
     });
+
+    config.resolve.alias.canvas = false;
+    
     return config;
   }
 }
