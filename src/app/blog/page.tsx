@@ -5,6 +5,9 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Maximize2 } from 'lucide-react';
 import venturingIntoUnknownContent from './text/investinginunknown.txt';
+import llmSteganographyContent from './text/llmsteganography.txt';
+import 'katex/dist/katex.min.css';
+import { InlineMath, BlockMath } from 'react-katex';
 
 interface BlogPost {
   title: string;
@@ -32,6 +35,20 @@ function BlogCard({ post }: { post: BlogPost }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
 
+  const renderFormula = (formula: string, isBlock = false) => {
+    try {
+      return isBlock ? (
+        <div className="my-4 overflow-x-auto">
+          <BlockMath math={formula} />
+        </div>
+      ) : (
+        <InlineMath math={formula} />
+      );
+    } catch (error) {
+      return <code>{formula}</code>;
+    }
+  };
+
   const renderContent = () => {
     if (post.category === 'Literature') {
       const paragraphs = post.excerpt.split(/\n\s*\n/);
@@ -42,6 +59,26 @@ function BlogCard({ post }: { post: BlogPost }) {
             const trimmedParagraph = paragraph.trim();
             if (!trimmedParagraph) return null;
 
+            // Handle code blocks
+            if (trimmedParagraph.startsWith('```') && trimmedParagraph.endsWith('```')) {
+              return (
+                <pre key={index} className="bg-gray-900/50 p-4 rounded-lg overflow-x-auto">
+                  <code className="text-sm text-gray-300">
+                    {trimmedParagraph.slice(3, -3)}
+                  </code>
+                </pre>
+              );
+            }
+
+            // Handle math blocks
+            if (trimmedParagraph.startsWith('$$') && trimmedParagraph.endsWith('$$')) {
+              return (
+                <div key={index} className="my-4">
+                  {renderFormula(trimmedParagraph.slice(2, -2), true)}
+                </div>
+              );
+            }
+
             if (trimmedParagraph.endsWith(':')) {
               return (
                 <h3 key={index} className="text-base font-medium text-gray-200 mt-6 mb-3">
@@ -50,19 +87,36 @@ function BlogCard({ post }: { post: BlogPost }) {
               );
             }
 
+            // Handle bullet points
+            if (trimmedParagraph.startsWith('- ')) {
+              return (
+                <div key={index} className="pl-4 text-gray-300 text-sm font-normal leading-relaxed">
+                  • {trimmedParagraph.slice(2).split('$').map((part, i) => 
+                    i % 2 === 0 ? part : renderFormula(part)
+                  )}
+                </div>
+              );
+            }
+
+            // Handle numbered lists
             if (/^\d+\.\s/.test(trimmedParagraph)) {
               return (
                 <div key={index} className="pl-6 space-y-2">
                   <p className="text-gray-300 text-sm font-normal leading-relaxed">
-                    {trimmedParagraph}
+                    {trimmedParagraph.split('$').map((part, i) => 
+                      i % 2 === 0 ? part : renderFormula(part)
+                    )}
                   </p>
                 </div>
               );
             }
             
+            // Regular paragraphs with inline math
             return (
               <p key={index} className="text-gray-300 text-sm font-normal leading-relaxed">
-                {trimmedParagraph}
+                {trimmedParagraph.split('$').map((part, i) => 
+                  i % 2 === 0 ? part : renderFormula(part)
+                )}
               </p>
             );
           })}
@@ -249,18 +303,28 @@ export default function Blog() {
 
   const posts: (BlogPost | ProjectPost)[] = [
     {
+      title: "Neural Whispers: The Steganography of LLMs",
+      excerpt: llmSteganographyContent,
+      date: "December 2024",
+      readTime: "6 min read",
+      category: "Literature",
+      tags: ["AI", "Security", "Cryptography"],
+      slug: "llm-steganography",
+      association: "IBM Research",
+      links: {
+        paper: "https://arxiv.org/abs/2311.09688"
+      }
+    } as ProjectPost,
+    {
       title: "Venturing Beyond Certainty: Zeckhauser's Unknown",
       excerpt: venturingIntoUnknownContent,
       date: "December 2024",
       readTime: "8 min read",
       category: "Literature",
-      tags: ["Investing", "Philosophy", "Decision Making"],
+      tags: ["Investing", "Decision Making", "Risk"],
       slug: "venturing-into-unknown",
-      association: "Article",
-      links: {
-        article: "https://scholar.harvard.edu/files/rzeckhauser/files/investing_in_unknown_and_unknowable.pdf"
-      }
-    } as ProjectPost,
+      association: "TBA"
+    } as BlogPost,
     // Investing Posts
     {
       title: "Why I Angeled Into Mercor: Revolutionizing Hiring with AI",
@@ -317,7 +381,7 @@ export default function Blog() {
       title: "Rabbit-Hole",
       excerpt: "Rabbit-Hole is an AI-driven learning tool that simulates the immersive experience of \"going down a rabbit hole,\" guiding users through layered topics and questions adapting to user curiosity by continuously offering deeper insights and related content. The tool integrates with a text-to-Manim model, enabling visual learning through educational animations.",
       date: "September 2024",
-      readTime: "2 min read",
+      readTime: "1 min read",
       category: "Projects",
       tags: ["AI", "LLM", "EdTech"],
       slug: "rabbit-hole",
@@ -343,7 +407,7 @@ export default function Blog() {
       title: "MOSQUITO EDGE: An Edge-Intelligent Real-Time Mosquito Threat Prediction Using an IoT-Enabled Hardware System",
       excerpt: "Edge computing device that combines real-time wingbeat sound recognition with satellite data to track and predict malaria & dengue outbreaks. The system uses a novel ML architecture optimized for edge deployment, achieving 86% accuracy in species identification while consuming minimal power. Deployed in pilot programs across Southeast Asia, enabling early warning systems for disease control agencies.",
       date: "August 2021 - October 2022",
-      readTime: "2 min read",
+      readTime: "1 min read",
       category: "Research",
       tags: ["AI", "Edge Computing", "Robotics"],
       slug: "mosquito-edge",

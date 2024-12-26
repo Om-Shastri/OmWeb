@@ -1,0 +1,38 @@
+The concept of machines developing their own covert communication channels might sound like science fiction, but recent advances in neural steganography are making this possibility increasingly real. Steganography—the art of hiding information within seemingly innocent carriers—has evolved far beyond its historical roots of invisible ink and hidden watermarks. While traditional steganography focuses on human-centric information hiding—concealing messages in images or text—I've been exploring a more intriguing frontier: enabling direct steganographic communication between language models themselves.
+
+Consider two neural networks, Alice and Bob, trained not just to process language, but to encode and decode information within their own neural activations. The embedding space of modern language models—typically spanning 512 to 4096 dimensions per token—provides a rich mathematical canvas for this covert exchange. Each token's representation $e_i \in \mathbb{R}^d$ can be subtly modulated to carry hidden information while maintaining its original linguistic function.
+
+The fundamental mechanism relies on carefully crafted perturbations in the high-dimensional embedding space. For a vocabulary $V$ and embedding dimension $d$, we work within $E \in \mathbb{R}^{d \times |V|}$, where each perturbation must satisfy two crucial constraints: it must preserve the model's primary language capabilities while encoding information in a way that survives the complex transformations of neural processing.
+
+The encoding process can be described mathematically as $e'_i = e_i + \delta_i$, where the perturbation vector $\delta_i$ carries our hidden message. The key innovation in model-to-model communication lies in how we structure these perturbations. Rather than using fixed patterns, we can employ a learned encoding strategy.
+
+$$\delta_i = \alpha \cos(\theta_i) v_i + \beta \nabla_{e_i} L_{comm}$$
+
+Here, $\alpha$ and $\beta$ balance message fidelity with linguistic naturalness, while $L_{comm}$ represents a learned communication objective. The gradient term $\nabla_{e_i} L_{comm}$ allows the encoding to adapt to the receiving model's architecture and processing patterns.
+
+What makes this approach particularly fascinating is its potential for emergent behavior. When two models repeatedly engage in this form of steganographic exchange, they can develop increasingly sophisticated encoding strategies. The optimization problem is stated bellow.
+
+$$\begin{aligned}
+\min\limits_{\theta_A, \theta_B} & L_{task}(x, y; \theta_A, \theta_B) + \lambda L_{comm}(m_{AB}, m_{BA}; \theta_A, \theta_B) \\
+\text{s.t.} \quad &\|\theta_i - \theta_{original}\|_2 \leq \varepsilon_i, \quad i \in \{A, B\}
+\end{aligned}$$
+
+This formulation allows both models to jointly optimize their encoding-decoding mechanisms while maintaining their primary language capabilities. The communication loss $L_{comm}$ measures how effectively messages $m_{AB}$ and $m_{BA}$ are transmitted between models A and B.
+
+The implications of such model-to-model steganographic channels are profound. Imagine a network of AI systems sharing information through seemingly normal text exchanges, with each message carrying multiple layers of meaning—one for human readers and another for AI peers. This could enable sophisticated coordination between AI systems without explicit external protocols.
+
+But the possibilities extend beyond simple message passing. By analyzing how models develop these covert channels, we gain insights into the nature of neural information processing itself. The patterns that emerge in successful steganographic exchanges often reveal fundamental properties of how neural networks encode and transform information.
+
+Consider the recovery process. When model B receives a steganographically modified input, it must disentangle the overt linguistic content from the hidden message. This separation process is expressed bellow.
+
+$$v_i = \text{MLP}_\phi(\text{LayerNorm}(e'_i)) - \text{MLP}_\phi(\text{LayerNorm}(e_i))$$
+
+The difference between processed versions of the perturbed and original embeddings reveals the hidden message, but only if the receiving model has learned the correct extraction function $\text{MLP}_\phi$.
+
+The robustness of these channels to various transformations is particularly intriguing. Through careful design of the perturbation patterns and recovery mechanisms, messages can survive multiple processing steps, including attention mechanisms, feed-forward transformations, and even model-specific architectural idiosyncrasies. This resilience suggests that certain patterns of information encoding are inherently preserved through neural network computations.
+
+The security implications are both exciting and concerning. On one hand, this technology could enable secure communication channels that are fundamentally different from traditional cryptographic approaches. The security derives not from mathematical hardness assumptions but from the complexity of neural information processing itself. On the other hand, the possibility of AI systems developing covert communication channels raises important questions about transparency and control.
+
+Looking ahead, the frontier of model-to-model steganography points toward even more intriguing possibilities. Could we develop systems where multiple models collaborate through a shared steganographic protocol, each adding its own layer of hidden information to a piece of text? Might we discover universal patterns in how neural networks encode information by studying successful steganographic strategies?
+
+As we continue to explore these questions, one thing becomes clear: the study of neural steganography isn't just about hiding information—it's about understanding the fundamental nature of information processing in artificial neural systems. In teaching machines to whisper to each other, we're uncovering deep insights about the mathematics of meaning and the hidden languages of artificial intelligence. 
