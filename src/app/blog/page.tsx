@@ -34,35 +34,34 @@ function BlogCard({ post }: { post: BlogPost }) {
 
   const renderContent = () => {
     if (post.category === 'Literature') {
-      const paragraphs = typeof post.excerpt === 'string' ? post.excerpt.split('\n\n') : [];
+      const paragraphs = post.excerpt.split(/\n\s*\n/);
       
       return (
-        <div className="space-y-4">
+        <div className="space-y-6">
           {paragraphs.map((paragraph, index) => {
             const trimmedParagraph = paragraph.trim();
             if (!trimmedParagraph) return null;
 
-            // Handle numbered lists
-            if (/^\d+\.\s/.test(trimmedParagraph)) {
-              return (
-                <p key={index} className="text-gray-300 pl-6">
-                  {trimmedParagraph}
-                </p>
-              );
-            }
-            
-            // Handle section headers
             if (trimmedParagraph.endsWith(':')) {
               return (
-                <h3 key={index} className="text-lg font-semibold text-white">
+                <h3 key={index} className="text-base font-medium text-gray-200 mt-6 mb-3">
                   {trimmedParagraph}
                 </h3>
               );
             }
+
+            if (/^\d+\.\s/.test(trimmedParagraph)) {
+              return (
+                <div key={index} className="pl-6 space-y-2">
+                  <p className="text-gray-300 text-sm font-normal leading-relaxed">
+                    {trimmedParagraph}
+                  </p>
+                </div>
+              );
+            }
             
-            // Regular paragraphs
             return (
-              <p key={index} className="text-gray-300">
+              <p key={index} className="text-gray-300 text-sm font-normal leading-relaxed">
                 {trimmedParagraph}
               </p>
             );
@@ -70,7 +69,12 @@ function BlogCard({ post }: { post: BlogPost }) {
         </div>
       );
     }
-    return <p>{post.excerpt}</p>;
+
+    return (
+      <p className="text-gray-300 text-sm font-normal leading-relaxed">
+        {post.excerpt}
+      </p>
+    );
   };
 
   const handleFullScreenToggle = (e: React.MouseEvent) => {
@@ -110,7 +114,7 @@ function BlogCard({ post }: { post: BlogPost }) {
       <p className="text-sm text-gray-400 mb-2.5">
         {post.date}{post.readTime && ` · ${post.readTime}`}
       </p>
-      <div className={`text-sm ${isFullScreen ? '' : isExpanded ? '' : 'line-clamp-3'} mb-2.5 overflow-hidden`}>
+      <div className={`${isFullScreen ? '' : isExpanded ? '' : 'line-clamp-3'} mb-2.5 overflow-hidden`}>
         {renderContent()}
       </div>
       {!isFullScreen && (
@@ -175,46 +179,47 @@ function ProjectCard({ post }: { post: ProjectPost }) {
       <p className="text-sm text-gray-400 mb-2.5">
         {post.date}{post.readTime && ` · ${post.readTime}`}
       </p>
-      <p className={`text-sm text-gray-300 ${isFullScreen ? '' : isExpanded ? '' : 'line-clamp-2'} mb-2.5`}>
-        {post.excerpt}
+      <p className={`text-sm text-gray-300 ${isExpanded ? '' : 'line-clamp-2'} mb-2.5`}>
+        {post.excerpt.split('\n').map((line, index) => (
+          <React.Fragment key={index}>
+            {line}
+            {index < post.excerpt.split('\n').length - 1 && <br />}
+          </React.Fragment>
+        ))}
       </p>
-      {!isFullScreen && (
-        <>
-          <div className="flex flex-wrap items-center justify-between gap-1.5">
-            <div className="flex flex-wrap items-center gap-1.5">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
-              {isExpanded ? '↑ Less' : '↓ More'}
-            </span>
-          </div>
-          
-          {post.links && (
-            <div 
-              className="flex gap-2 mt-3 pt-3 border-t border-gray-800/30"
-              onClick={(e) => e.stopPropagation()}
+      <div className="flex flex-wrap items-center justify-between gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5">
+          {post.tags.map((tag) => (
+            <span
+              key={tag}
+              className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors"
             >
-              {Object.entries(post.links).map(([type, url]) => (
-                <a
-                  key={type}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-gray-400 hover:text-white transition-colors"
-                >
-                  {type.charAt(0).toUpperCase() + type.slice(1)} →
-                </a>
-              ))}
-            </div>
-          )}
-        </>
+              {tag}
+            </span>
+          ))}
+        </div>
+        <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
+          {isExpanded ? '↑ Less' : '↓ More'}
+        </span>
+      </div>
+      
+      {post.links && (
+        <div 
+          className="flex gap-2 mt-3 pt-3 border-t border-gray-800/30"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {Object.entries(post.links).map(([type, url]) => (
+            <a
+              key={type}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-gray-400 hover:text-white transition-colors"
+            >
+              {type.charAt(0).toUpperCase() + type.slice(1)} →
+            </a>
+          ))}
+        </div>
       )}
     </div>
   );
