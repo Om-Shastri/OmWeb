@@ -44,7 +44,7 @@ function BlogCard({ post }: { post: BlogPost }) {
       ) : (
         <InlineMath math={formula} />
       );
-    } catch (error) {
+    } catch {
       return <code>{formula}</code>;
     }
   };
