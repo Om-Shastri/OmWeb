@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Maximize2 } from 'lucide-react';
 import venturingIntoUnknownContent from './text/investinginunknown.txt';
 
 interface BlogPost {
@@ -30,6 +30,7 @@ interface ProjectPost extends BlogPost {
 
 function BlogCard({ post }: { post: BlogPost }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   const renderContent = () => {
     if (post.category === 'Literature') {
@@ -72,101 +73,148 @@ function BlogCard({ post }: { post: BlogPost }) {
     return <p>{post.excerpt}</p>;
   };
 
+  const handleFullScreenToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsFullScreen(!isFullScreen);
+    setIsExpanded(true);
+  };
+
+  console.log('Post category:', post.category);
+
   return (
     <div 
-      className="block border border-gray-800/40 rounded-md p-6 hover:border-gray-600/60 transition-all duration-300 bg-black/10 backdrop-blur-[2px] hover:bg-black/20 group cursor-pointer"
-      onClick={() => setIsExpanded(!isExpanded)}
+      className={`block border border-gray-800/40 rounded-md p-6 hover:border-gray-600/60 transition-all duration-300 ${
+        isFullScreen 
+          ? 'fixed left-[5%] right-[5%] top-[5%] bottom-[5%] z-50 overflow-y-auto bg-[#000000] rounded-xl' 
+          : 'bg-black/10 backdrop-blur-[2px] hover:bg-black/20'
+      } group cursor-pointer`}
+      onClick={() => !isFullScreen && setIsExpanded(!isExpanded)}
     >
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-base font-medium text-gray-200 group-hover:text-white transition-colors">
           {post.title}
         </h2>
-        <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-300 backdrop-blur-[2px] group-hover:bg-gray-800/40">
-          {(post as ProjectPost).association || post.category}
-        </span>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleFullScreenToggle}
+            className="p-1 hover:bg-gray-800/40 rounded-full transition-colors"
+            aria-label="Toggle fullscreen"
+          >
+            <Maximize2 size={16} className="text-gray-400 hover:text-white" />
+          </button>
+          <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-300 backdrop-blur-[2px] group-hover:bg-gray-800/40">
+            {post.association || post.category}
+          </span>
+        </div>
       </div>
       <p className="text-sm text-gray-400 mb-2.5">
         {post.date}{post.readTime && ` · ${post.readTime}`}
       </p>
-      <div className={`text-sm ${isExpanded ? '' : 'line-clamp-3'} mb-2.5 overflow-hidden`}>
+      <div className={`text-sm ${isFullScreen ? '' : isExpanded ? '' : 'line-clamp-3'} mb-2.5 overflow-hidden`}>
         {renderContent()}
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-1.5">
-        <div className="flex flex-wrap items-center gap-1.5">
-          {post.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors"
-            >
-              {tag}
-            </span>
-          ))}
+      {!isFullScreen && (
+        <div className="flex flex-wrap items-center justify-between gap-1.5">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {post.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
+            {isExpanded ? '↑ Less' : '↓ More'}
+          </span>
         </div>
-        <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
-          {isExpanded ? '↑ Less' : '↓ More'}
-        </span>
-      </div>
+      )}
     </div>
   );
 }
 
 function ProjectCard({ post }: { post: ProjectPost }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+
+  const handleFullScreenToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsFullScreen(!isFullScreen);
+    setIsExpanded(true);
+  };
 
   return (
     <div 
-      className="border border-gray-800/40 rounded-md p-4 hover:border-gray-600/60 transition-all duration-300 bg-black/10 backdrop-blur-[2px] hover:bg-black/20 group cursor-pointer"
-      onClick={() => setIsExpanded(!isExpanded)}
+      className={`border border-gray-800/40 rounded-md p-4 hover:border-gray-600/60 transition-all duration-300 ${
+        isFullScreen 
+          ? 'fixed left-[5%] right-[5%] top-[5%] bottom-[5%] z-50 overflow-y-auto bg-[#000000] rounded-xl' 
+          : 'bg-black/10 backdrop-blur-[2px] hover:bg-black/20'
+      } group cursor-pointer`}
+      onClick={() => !isFullScreen && setIsExpanded(!isExpanded)}
     >
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-base font-medium text-gray-200 group-hover:text-white transition-colors">
           {post.title}
         </h2>
-        {post.association && (
-          <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-300 backdrop-blur-[2px] group-hover:bg-gray-800/40">
-            {post.association}
-          </span>
-        )}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleFullScreenToggle}
+            className="p-1 hover:bg-gray-800/40 rounded-full transition-colors"
+            aria-label="Toggle fullscreen"
+          >
+            <Maximize2 size={16} className="text-gray-400 hover:text-white" />
+          </button>
+          {post.association && (
+            <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-300 backdrop-blur-[2px] group-hover:bg-gray-800/40">
+              {post.association}
+            </span>
+          )}
+        </div>
       </div>
       <p className="text-sm text-gray-400 mb-2.5">
         {post.date}{post.readTime && ` · ${post.readTime}`}
       </p>
-      <p className={`text-sm text-gray-300 ${isExpanded ? '' : 'line-clamp-2'} mb-2.5`}>
+      <p className={`text-sm text-gray-300 ${isFullScreen ? '' : isExpanded ? '' : 'line-clamp-2'} mb-2.5`}>
         {post.excerpt}
       </p>
-      <div className="flex flex-wrap items-center justify-between gap-1.5">
-        <div className="flex flex-wrap items-center gap-1.5">
-          {post.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors"
-            >
-              {tag}
+      {!isFullScreen && (
+        <>
+          <div className="flex flex-wrap items-center justify-between gap-1.5">
+            <div className="flex flex-wrap items-center gap-1.5">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
+              {isExpanded ? '↑ Less' : '↓ More'}
             </span>
-          ))}
-        </div>
-        <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
-          {isExpanded ? '↑ Less' : '↓ More'}
-        </span>
-      </div>
-      
-      {post.links && (
-        <div 
-          className="flex gap-2 mt-3 pt-3 border-t border-gray-800/30"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {Object.entries(post.links).map(([type, url]) => (
-            <a
-              key={type}
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-gray-400 hover:text-white transition-colors"
+          </div>
+          
+          {post.links && (
+            <div 
+              className="flex gap-2 mt-3 pt-3 border-t border-gray-800/30"
+              onClick={(e) => e.stopPropagation()}
             >
-              {type.charAt(0).toUpperCase() + type.slice(1)} →
-            </a>
-          ))}
-        </div>
+              {Object.entries(post.links).map(([type, url]) => (
+                <a
+                  key={type}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-gray-400 hover:text-white transition-colors"
+                >
+                  {type.charAt(0).toUpperCase() + type.slice(1)} →
+                </a>
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
@@ -367,7 +415,8 @@ export default function Blog() {
 
           <div className="grid grid-cols-1 gap-3">
             {filteredPosts.map((post) => (
-              post.category === 'Investing' || (post.category === 'Research' && !('links' in post)) ? (
+              post.category === 'Literature' || post.category === 'Investing' || 
+              (post.category === 'Research' && !('links' in post)) ? (
                 <BlogCard key={post.slug} post={post} />
               ) : (
                 <ProjectCard key={post.slug} post={post as ProjectPost} />
