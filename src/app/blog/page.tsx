@@ -141,11 +141,15 @@ function BlogCard({ post }: { post: BlogPost }) {
 
   return (
     <div 
-      className={`block border border-gray-800/40 rounded-md p-6 hover:border-gray-600/60 transition-all duration-300 ${
-        isFullScreen 
-          ? 'fixed left-[5%] right-[5%] top-[5%] bottom-[5%] z-50 overflow-y-auto bg-[#000000] rounded-xl' 
-          : 'bg-black/10 backdrop-blur-[2px] hover:bg-black/20'
-      } group cursor-pointer`}
+      className={`block border border-gray-800/40 rounded-md p-6 transition-all duration-300 ease-in-out 
+        ${isFullScreen 
+          ? 'fixed left-[5%] right-[5%] top-[5%] bottom-[5%] z-50 overflow-y-auto bg-black rounded-xl' 
+          : 'bg-black/10 backdrop-blur-[2px] hover:bg-black/20 hover:border-gray-600/60'
+        } group cursor-pointer`}
+      style={{
+        transitionProperty: 'all, background-color',
+        transitionDuration: '300ms'
+      }}
       onClick={() => !isFullScreen && setIsExpanded(!isExpanded)}
     >
       <div className="flex items-center justify-between mb-2">
@@ -222,11 +226,15 @@ function ProjectCard({ post }: { post: ProjectPost }) {
 
   return (
     <div 
-      className={`border border-gray-800/40 rounded-md p-4 hover:border-gray-600/60 transition-all duration-300 ${
-        isFullScreen 
-          ? 'fixed left-[5%] right-[5%] top-[5%] bottom-[5%] z-50 overflow-y-auto bg-[#000000] rounded-xl' 
-          : 'bg-black/10 backdrop-blur-[2px] hover:bg-black/20'
-      } group cursor-pointer`}
+      className={`border border-gray-800/40 rounded-md p-4 transition-all duration-300 ease-in-out 
+        ${isFullScreen 
+          ? 'fixed left-[5%] right-[5%] top-[5%] bottom-[5%] z-50 overflow-y-auto bg-black rounded-xl' 
+          : 'bg-black/10 backdrop-blur-[2px] hover:bg-black/20 hover:border-gray-600/60'
+        } group cursor-pointer`}
+      style={{
+        transitionProperty: 'all, background-color',
+        transitionDuration: '300ms'
+      }}
       onClick={() => !isFullScreen && setIsExpanded(!isExpanded)}
     >
       <div className="flex items-center justify-between mb-2">
@@ -259,21 +267,23 @@ function ProjectCard({ post }: { post: ProjectPost }) {
           </React.Fragment>
         ))}
       </p>
-      <div className="flex flex-wrap items-center justify-between gap-1.5">
-        <div className="flex flex-wrap items-center gap-1.5">
-          {post.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors"
-            >
-              {tag}
-            </span>
-          ))}
+      {!isFullScreen && (
+        <div className="flex flex-wrap items-center justify-between gap-1.5">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {post.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
+            {isExpanded ? '↑ Less' : '↓ More'}
+          </span>
         </div>
-        <span className="px-2 py-0.5 bg-gray-800/30 rounded-full text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
-          {isExpanded ? '↑ Less' : '↓ More'}
-        </span>
-      </div>
+      )}
       
       {post.links && (
         <div 
@@ -330,7 +340,7 @@ export default function Blog() {
       slug: "llm-steganography",
       association: "IBM Research",
       links: {
-        paper: "https://arxiv.org/pdf/2404.10229"
+        paper: "https://arxiv.org/abs/2311.09688"
       }
     } as ProjectPost,
     {
@@ -343,8 +353,8 @@ export default function Blog() {
       slug: "venturing-into-unknown",
       association: "TBA",
       links: {
-        article: "https://scholar.harvard.edu/files/rzeckhauser/files/investing_in_unknown_and_unknowable.pdf"
-      } 
+        paper: "https://scholar.harvard.edu/files/rzeckhauser/files/investing_in_unknown_and_unknowable.pdf"
+      }
     } as BlogPost,
     // Investing Posts
     {
