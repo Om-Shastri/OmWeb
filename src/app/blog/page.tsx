@@ -188,6 +188,24 @@ function BlogCard({ post }: { post: BlogPost }) {
           </span>
         </div>
       )}
+      {(post as ProjectPost).links && (
+        <div 
+          className="flex gap-2 mt-3 pt-3 border-t border-gray-800/30"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {Object.entries((post as ProjectPost).links!).map(([type, url]) => (
+            <a
+              key={type}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-gray-400 hover:text-white transition-colors"
+            >
+              {type.charAt(0).toUpperCase() + type.slice(1)} →
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -312,7 +330,7 @@ export default function Blog() {
       slug: "llm-steganography",
       association: "IBM Research",
       links: {
-        paper: "https://arxiv.org/abs/2311.09688"
+        paper: "https://arxiv.org/pdf/2404.10229"
       }
     } as ProjectPost,
     {
@@ -323,7 +341,10 @@ export default function Blog() {
       category: "Literature",
       tags: ["Investing", "Decision Making", "Risk"],
       slug: "venturing-into-unknown",
-      association: "TBA"
+      association: "TBA",
+      links: {
+        article: "https://scholar.harvard.edu/files/rzeckhauser/files/investing_in_unknown_and_unknowable.pdf"
+      } 
     } as BlogPost,
     // Investing Posts
     {
@@ -334,7 +355,10 @@ export default function Blog() {
       category: "Investing",
       tags: ["Startups", "AI", "HR Tech"],
       slug: "why-i-invested-in-mercor",
-      association: "Angel Investment"
+      association: "Angel Investment",
+      links: {
+        website: "https://mercor.com/"
+      }
     },
     // Temporarily removed
     /*{
