@@ -5,10 +5,6 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import SettingsControl from '../../components/Settings';
 
-export const metadata = {
-  title: "Project: Planform"
-};
-
 export default function PlanformProject() {
   return (
     <main className="min-h-screen">
