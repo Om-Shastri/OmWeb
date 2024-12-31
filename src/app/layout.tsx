@@ -5,6 +5,7 @@ import CursorAura from './components/CursorAura';
 import RouteTransition from './components/RouteTransition';
 import BackgroundWrapper from './components/BackgroundWrapper';
 import { SplineProvider } from './contexts/SplineContext';
+import SettingsControl from './components/Settings';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,6 +41,7 @@ export default function RootLayout({
         <SplineProvider>
           <BackgroundWrapper />
           <CursorAura />
+          <SettingsControl />
           <RouteTransition>
             {children}
           </RouteTransition>
