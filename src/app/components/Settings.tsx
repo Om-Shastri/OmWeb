@@ -6,14 +6,24 @@ import { Settings, Volume2, VolumeX } from 'lucide-react';
 export default function SettingsControl() {
   const [isOpen, setIsOpen] = useState(false);
   const [volume, setVolume] = useState(50);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const settingsRef = useRef<HTMLDivElement>(null);
+  const hasAttemptedAutoplay = useRef(false);
 
   useEffect(() => {
     // Create audio element
     audioRef.current = new Audio('/background-music.mp3');
     audioRef.current.loop = true;
+
+    // Try to autoplay, but don't worry if it fails
+    if (!hasAttemptedAutoplay.current) {
+      hasAttemptedAutoplay.current = true;
+      audioRef.current.volume = volume / 100;
+      audioRef.current.play().catch(() => {
+        // Autoplay failed - we'll wait for user interaction
+      });
+    }
 
     // Cleanup
     return () => {
@@ -22,6 +32,20 @@ export default function SettingsControl() {
         audioRef.current = null;
       }
     };
+  }, []);
+
+  // Add a document-wide click listener to start playing after first interaction
+  useEffect(() => {
+    const handleFirstInteraction = () => {
+      if (audioRef.current && !isMuted) {
+        audioRef.current.volume = volume / 100;
+        audioRef.current.play().catch(console.error);
+      }
+      document.removeEventListener('click', handleFirstInteraction);
+    };
+
+    document.addEventListener('click', handleFirstInteraction);
+    return () => document.removeEventListener('click', handleFirstInteraction);
   }, []);
 
   useEffect(() => {
@@ -42,10 +66,7 @@ export default function SettingsControl() {
         audioRef.current.pause();
       } else {
         audioRef.current.volume = volume / 100;
-        audioRef.current.play().catch(() => {
-          // Handle autoplay restrictions
-          console.log('Autoplay prevented - waiting for user interaction');
-        });
+        audioRef.current.play().catch(console.error);
       }
     }
   }, [volume, isMuted]);
@@ -107,7 +128,9 @@ export default function SettingsControl() {
               min="0"
               max="100"
               value={volume}
-              onChange={(e) => setVolume(Number(e.target.value))}
+              onChange={(e) => {
+                setVolume(Number(e.target.value));
+              }}
               className="w-20 h-0.5 bg-gray-600/40 rounded-lg appearance-none cursor-pointer
                 [&::-webkit-slider-thumb]:appearance-none
                 [&::-webkit-slider-thumb]:w-2.5
