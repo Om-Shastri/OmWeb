@@ -57,14 +57,14 @@ function InvestmentCard({ investment }: { investment: Investment }) {
 
 export default function Portfolio() {
   const investments: Investment[] = [
-    {
-      name: "Mercor",
-      round: "Series B",
-      sectors: ["HR Tech", "AI"],
-      status: "Active",
-      logo: "/mercor.png",
-      url: "https://mercor.com/"
-    },
+    // {
+    //   name: "Mercor",
+    //   round: "Series B",
+    //   sectors: ["HR Tech", "AI"],
+    //   status: "Active",
+    //   logo: "/mercor.png",
+    //   url: "https://mercor.com/"
+    // },
     // Temporarily removed
     /*{
       name: "Automorphic",

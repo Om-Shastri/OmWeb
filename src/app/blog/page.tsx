@@ -358,19 +358,19 @@ export default function Blog() {
       }
     } as BlogPost,
     // Investing Posts
-    {
-      title: "Why I Angeled Into Mercor: Revolutionizing Hiring with AI",
-      excerpt: "When three Thiel Fellows dropped out of Harvard and Georgetown to build an AI hiring platform, they weren't just creating another HR tool – they were reimagining how talent is discovered. Mercor's AI models have already analyzed thousands of candidates, but what truly caught my attention was their contrarian approach: offering enterprise-grade interview feedback freely to everyone, using this data flywheel to build increasingly sophisticated hiring models. With backing from Peter Thiel, Jack Dorsey, and Adam D'Angelo, Mercor is positioned to transform hiring from a biased, inefficient process into a true meritocracy powered by AI.",
-      date: "December 2024",
-      readTime: "2 min read",
-      category: "Investing",
-      tags: ["Startups", "AI", "HR Tech"],
-      slug: "why-i-invested-in-mercor",
-      association: "Angel Investment",
-      links: {
-        website: "https://mercor.com/"
-      }
-    },
+    // {
+    //   title: "Why I Angeled Into Mercor: Revolutionizing Hiring with AI",
+    //   excerpt: "When three Thiel Fellows dropped out of Harvard and Georgetown to build an AI hiring platform, they weren't just creating another HR tool – they were reimagining how talent is discovered. Mercor's AI models have already analyzed thousands of candidates, but what truly caught my attention was their contrarian approach: offering enterprise-grade interview feedback freely to everyone, using this data flywheel to build increasingly sophisticated hiring models. With backing from Peter Thiel, Jack Dorsey, and Adam D'Angelo, Mercor is positioned to transform hiring from a biased, inefficient process into a true meritocracy powered by AI.",
+    //   date: "December 2024",
+    //   readTime: "2 min read",
+    //   category: "Investing",
+    //   tags: ["Startups", "AI", "HR Tech"],
+    //   slug: "why-i-invested-in-mercor",
+    //   association: "Angel Investment",
+    //   links: {
+    //     website: "https://mercor.com/"
+    //   }
+    // },
     // Temporarily removed
     /*{
       title: "Why I Angeled Into Automorphic: Democratizing LLM Development",
