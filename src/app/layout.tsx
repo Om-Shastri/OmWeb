@@ -40,7 +40,6 @@ export default function RootLayout({
       <body style={{ backgroundColor: 'black' }}>
         <SplineProvider>
           <BackgroundWrapper />
-          <CursorAura />
           <SettingsControl />
           <RouteTransition>
             {children}
