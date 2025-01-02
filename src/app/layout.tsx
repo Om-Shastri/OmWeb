@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import CursorAura from './components/CursorAura';
 import RouteTransition from './components/RouteTransition';
 import BackgroundWrapper from './components/BackgroundWrapper';
 import { SplineProvider } from './contexts/SplineContext';
