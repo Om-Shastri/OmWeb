@@ -5,7 +5,7 @@ import { Settings, Volume2, VolumeX } from 'lucide-react';
 
 export default function SettingsControl() {
   const [isOpen, setIsOpen] = useState(false);
-  const [volume, setVolume] = useState(50);
+  const [volume, setVolume] = useState(10);
   const [isMuted, setIsMuted] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const settingsRef = useRef<HTMLDivElement>(null);
@@ -16,7 +16,7 @@ export default function SettingsControl() {
     audioRef.current = new Audio('/background-music.mp3');
     audioRef.current.loop = true;
 
-    // Try to autoplay, but don't worry if it fails
+    // Try to autoplay at half volume
     if (!hasAttemptedAutoplay.current) {
       hasAttemptedAutoplay.current = true;
       audioRef.current.volume = volume / 100;
