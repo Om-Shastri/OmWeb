@@ -9,6 +9,7 @@ import llmSteganographyContent from './text/llmsteganography.txt';
 import 'katex/dist/katex.min.css';
 import { InlineMath, BlockMath } from 'react-katex';
 import SettingsControl from '../components/Settings';
+import processRewardModelsContent from './text/processrewardmodels.txt';
 
 interface BlogPost {
   title: string;
@@ -384,6 +385,20 @@ export default function Blog() {
     },*/
 
     // Project Posts (keep existing project posts)
+    {
+      title: "Semantic PRMs",
+      excerpt: processRewardModelsContent,
+      date: "December 2024",
+      readTime: "5 min read",
+      category: "Projects",
+      tags: ["AI", "LLM", "NLP"],
+      slug: "process-reward-models-nyt-connections",
+      association: "Research Project",
+      links: {
+        Data: "https://huggingface.co/datasets/Om-Shastri/prmupdated_dataset",
+        Model: "https://huggingface.co/Om-Shastri/llama-3.1-8b-Reward-NTY"
+      }
+    } as ProjectPost,
     {
       title: "A Hitchhiker's Guide to X",
       excerpt: "xAI Hackathon Winner; Grok's embedding model transforms Twitter/X posts into a personalized, ever-expanding knowledge graph that lets users explore ideas and insights in depth, sparking new inspirations.",
