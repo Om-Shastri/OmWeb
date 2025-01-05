@@ -23,24 +23,13 @@ Generalizing Beyond Math:
 
 So why go through all this trouble of mapping the puzzle-solving process step by step? Because it generalizes. We already know stepwise explainability is critical in math and logic-based domains. However, if you can train an AI to reason about something as open-ended as grouping words by theme—where creativity and interpretation are crucial—then you're essentially showing it how to handle reasoning in a broader context.
 
-Applications include:
 - Creative Brainstorming: In writing assistance or idea generation, an AI that explains how it arrived at each suggestion could keep track of thought tangents, preventing rehashed ideas and encouraging true novelty.
 - Complex Decision-Making: In areas like law or finance, it's not just about the final verdict or recommendation but also why you arrived there. If an AI can systematically walk through evidence, precedents, and logical inferences, it makes the output more trustworthy.
 - Medical Diagnosis: Similar logic applies when a doctor needs to understand each piece of the puzzle, from symptom analysis to recommended treatments. A stepwise approach allows for better auditing and ensures the AI isn't making dangerous leaps.
 
 The Motivation Behind This Experiment:
 
-The core challenge was adapting PRM frameworks—typically grounded in formal logic—to handle semantic uncertainty. While mathematical PRMs can rely on proof assistants like Coq or Lean for verification, semantic reasoning requires a more nuanced approach to intermediate state validation.
-
-Key technical considerations included:
-- State Space Representation: Encoding partial solutions as vectors in high-dimensional semantic space
-- Reward Function Design: R(s,a) = λ₁C(s,a) + λ₂L(s,a) + λ₃E(s,a)
-  where C measures category coherence, L tracks logical progression, and E evaluates explanation quality
-- Training Dynamics: Implementing curriculum learning to gradually increase task complexity
-
-A Glimpse into the Future:
-
-The implications of extending PRMs beyond mathematical domains suggest a pathway toward more robust reasoning capabilities in language models. Key areas of potential impact include:
+The core challenge was adapting PRM frameworks—typically grounded in formal logic—to handle semantic uncertainty. While mathematical PRMs can rely on proof assistants like Coq or Lean for verification, semantic reasoning requires a more nuanced approach to intermediate state validation. The implications of extending PRMs beyond mathematical domains suggest a pathway toward more robust reasoning capabilities in language models. Key areas of potential impact include:
 
 - Enhanced Chain-of-Thought Generation: By decomposing complex reasoning tasks into verifiable sub-steps, models can develop more structured and reliable thought processes, potentially reducing hallucinations and improving output consistency.
 - Cross-Domain Reasoning Transfer: The ability to apply mathematical PRM principles to semantic tasks suggests potential for transfer learning between formal and informal reasoning domains. This could lead to more sophisticated hybrid reasoning systems.
