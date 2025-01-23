@@ -45,7 +45,7 @@ function QuoteCard({ quote }: { quote: Quote }) {
     <div className="p-6 border border-gray-800/40 rounded-lg bg-black/10 backdrop-blur-sm hover:bg-black/20 transition-all duration-300 group">
       <blockquote className="space-y-4">
         <p className="text-lg text-gray-200 leading-relaxed italic">
-          "{quote.text}"
+          &ldquo;{quote.text}&rdquo;
         </p>
         <footer className="text-sm">
           <cite className="text-gray-400 not-italic font-medium flex items-center gap-3">

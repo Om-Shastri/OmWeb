@@ -336,7 +336,7 @@ function TabButton({ active, onClick, children }: {
 
 const quotes: Quote[] = [
   {
-    text: "Don't worry about what anybody else is going to do. The best way to predict the future is to invent it.",
+    text: "Don&apos;t worry about what anybody else is going to do. The best way to predict the future is to invent it.",
     author: "Alan Kay",
     year: "1971"
   },
@@ -346,7 +346,7 @@ const quotes: Quote[] = [
     year: "1906"
   },
   {
-    text: "I don't think success is complicated; if you do something that works, then it's a success.",
+    text: "I don&apos;t think success is complicated; if you do something that works, then it&apos;s a success.",
     author: "Peter Thiel",
     year: "2014"
   },
@@ -382,7 +382,7 @@ function QuoteCard({ quote }: { quote: Quote }) {
     <div className="p-6 border border-gray-800/40 rounded-lg bg-black/10 backdrop-blur-sm hover:bg-black/20 transition-all duration-300 group">
       <blockquote className="space-y-4">
         <p className="text-lg text-gray-200 leading-relaxed italic">
-          "{quote.text}"
+          &ldquo;{quote.text}&rdquo;
         </p>
         <footer className="text-sm">
           <cite className="text-gray-400 not-italic font-medium flex items-center gap-3">
