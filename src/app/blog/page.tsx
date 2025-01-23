@@ -336,7 +336,7 @@ function TabButton({ active, onClick, children }: {
 
 const quotes: Quote[] = [
   {
-    text: "Don&apos;t worry about what anybody else is going to do. The best way to predict the future is to invent it.",
+    text: "Don't worry about what anybody else is going to do. The best way to predict the future is to invent it.",
     author: "Alan Kay",
     year: "1971"
   },
@@ -346,7 +346,7 @@ const quotes: Quote[] = [
     year: "1906"
   },
   {
-    text: "I don&apos;t think success is complicated; if you do something that works, then it&apos;s a success.",
+    text: "I don't think success is complicated; if you do something that works, then it&apos;s a success.",
     author: "Peter Thiel",
     year: "2014"
   },
