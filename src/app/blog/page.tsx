@@ -346,7 +346,7 @@ const quotes: Quote[] = [
     year: "1906"
   },
   {
-    text: "I don't think success is complicated; if you do something that works, then it&apos;s a success.",
+    text: "I don't think success is complicated; if you do something that works, then it is a success.",
     author: "Peter Thiel",
     year: "2014"
   },
