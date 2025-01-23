@@ -1,10 +1,11 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import SettingsControl from '../components/Settings';
+import PasswordProtection from '../components/PasswordProtection';
 
 interface Investment {
   name: string;
@@ -56,24 +57,34 @@ function InvestmentCard({ investment }: { investment: Investment }) {
 }
 
 export default function Portfolio() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
   const investments: Investment[] = [
-    // {
-    //   name: "Mercor",
-    //   round: "Series B",
-    //   sectors: ["HR Tech", "AI"],
-    //   status: "Active",
-    //   logo: "/mercor.png",
-    //   url: "https://mercor.com/"
-    // },
-    // Temporarily removed
-    /*{
+    {
+      name: "Mercor",
+      round: "Series B",
+      sectors: ["HR Tech", "AI"],
+      status: "Active",
+      logo: "/mercor.png",
+      url: "https://mercor.com/"
+    },
+
+    {
+      name: "Origin Bio",
+      round: "Pre-Seed",
+      sectors: ["Biology", "AI"],
+      status: "Active",
+      logo: "/originbio.png",
+      url: "https://origin.bio/"
+    },
+    {
       name: "Automorphic",
       round: "Series A",
       sectors: ["DevTools", "AI"],
       status: "Active",
       logo: "/automorphic.png",
       url: "https://automorphic.ai/"
-    }*/
+    }
   ];
 
   return (
@@ -91,17 +102,21 @@ export default function Portfolio() {
           </div>
         </nav>
 
-        <div className="max-w-2xl mx-auto px-6 py-12">
-          <h1 className="text-6xl font-bold mb-12 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-center pb-4">
-            Angel Portfolio
-          </h1>
+        {!isAuthenticated ? (
+          <PasswordProtection onCorrectPassword={() => setIsAuthenticated(true)} />
+        ) : (
+          <div className="max-w-2xl mx-auto px-6 py-12">
+            <h1 className="text-6xl font-bold mb-12 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-center pb-4">
+              Portfolio
+            </h1>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {investments.map((investment) => (
-              <InvestmentCard key={investment.name} investment={investment} />
-            ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {investments.map((investment) => (
+                <InvestmentCard key={investment.name} investment={investment} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </main>
   );

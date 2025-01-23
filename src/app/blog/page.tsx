@@ -11,12 +11,18 @@ import { InlineMath, BlockMath } from 'react-katex';
 import SettingsControl from '../components/Settings';
 import processRewardModelsContent from './text/processrewardmodels.txt';
 
+interface Quote {
+  text: string;
+  author: string;
+  year?: string;
+}
+
 interface BlogPost {
   title: string;
   excerpt: string;
   date: string;
   readTime?: string;
-  category: 'Research' | 'Investing' | 'Projects' | 'Literature';
+  category: 'Research' | 'Investing' | 'Projects' | 'Literature' | 'Quotes';
   tags: string[];
   slug: string;
   association?: string;
@@ -328,8 +334,73 @@ function TabButton({ active, onClick, children }: {
   );
 }
 
+const quotes: Quote[] = [
+  {
+    text: "Don't worry about what anybody else is going to do. The best way to predict the future is to invent it.",
+    author: "Alan Kay",
+    year: "1971"
+  },
+  {
+    text: "The more I think about language, the more it amazes me that people ever understand each other at all.",
+    author: "Kurt Gödel",
+    year: "1906"
+  },
+  {
+    text: "I don't think success is complicated; if you do something that works, then it's a success.",
+    author: "Peter Thiel",
+    year: "2014"
+  },
+  {
+    text: "In labouring to be concise, I become obscure.",
+    author: "Horace",
+    year: "20 BC"
+  },
+  {
+    text: "Here we are, trapped in the amber of the moment. There is no why.",
+    author: "Kurt Vonnegut",
+    year: "1973"
+  },
+  {
+    text: "Short words are best and the old words when short are best of all.",
+    author: "Winston Churchill",
+    year: "1940"
+  },
+  {
+    text: "If you can imagine someone surpassing you, you should do it yourself.",
+    author: "Paul Graham",
+    year: "2004"
+  },
+  {
+    text: "Not all treasure is silver and gold, mate.",
+    author: "Jack Sparrow",
+    year: "2003"
+  }
+];
+
+function QuoteCard({ quote }: { quote: Quote }) {
+  return (
+    <div className="p-6 border border-gray-800/40 rounded-lg bg-black/10 backdrop-blur-sm hover:bg-black/20 transition-all duration-300 group">
+      <blockquote className="space-y-4">
+        <p className="text-lg text-gray-200 leading-relaxed italic">
+          "{quote.text}"
+        </p>
+        <footer className="text-sm">
+          <cite className="text-gray-400 not-italic font-medium flex items-center gap-3">
+            <span>{quote.author}</span>
+            {quote.year && (
+              <span className="text-gray-500 border border-gray-800 px-2 py-0.5 rounded-full text-xs">
+                {quote.year}
+              </span>
+            )}
+          </cite>
+        </footer>
+      </blockquote>
+    </div>
+  );
+}
+
 export default function Blog() {
-  const [activeTab, setActiveTab] = useState<'Research' | 'Investing' | 'Projects' | 'Literature'>('Projects');
+  const [activeTab, setActiveTab] = useState<'Research' | 'Investing' | 'Projects' | 'Literature' | 'Quotes'>('Projects');
 
   const posts: (BlogPost | ProjectPost)[] = [
     {
@@ -499,13 +570,10 @@ export default function Blog() {
           </div>
         </nav>
 
-        <div className="max-w-2xl mx-auto px-6 py-12">
-          <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-center">
+        <div className="max-w-3xl mx-auto px-6 py-12">
+          <h1 className="text-6xl font-bold mb-12 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-center pb-4">
             Omnibus
           </h1>
-          <p className="text-gray-400 text-center mb-12 w-full mx-auto">
-            This space is for those who, like me, are deeply curious about the future.
-          </p>
 
           <div className="flex justify-center gap-2 mb-8 bg-black/20 backdrop-blur-sm p-1 rounded-lg">
             <TabButton 
@@ -532,18 +600,32 @@ export default function Blog() {
             >
               Literature
             </TabButton>
+            <TabButton 
+              active={activeTab === 'Quotes'} 
+              onClick={() => setActiveTab('Quotes')}
+            >
+              Quotes
+            </TabButton>
           </div>
 
           <div className="grid grid-cols-1 gap-3">
-            {filteredPosts.map((post) => (
-              post.category === 'Literature' || post.category === 'Investing' || 
-              (post.category === 'Research' && !('links' in post)) ? (
-                <BlogCard key={post.slug} post={post} />
-              ) : (
-                <ProjectCard key={post.slug} post={post as ProjectPost} />
-              )
-            ))}
-            {filteredPosts.length === 0 && (
+            {activeTab === 'Quotes' ? (
+              <div className="space-y-6">
+                {quotes.map((quote, index) => (
+                  <QuoteCard key={index} quote={quote} />
+                ))}
+              </div>
+            ) : (
+              filteredPosts.map((post) => (
+                post.category === 'Literature' || post.category === 'Investing' || 
+                (post.category === 'Research' && !('links' in post)) ? (
+                  <BlogCard key={post.slug} post={post} />
+                ) : (
+                  <ProjectCard key={post.slug} post={post as ProjectPost} />
+                )
+              ))
+            )}
+            {activeTab !== 'Quotes' && filteredPosts.length === 0 && (
               <div className="text-center py-12">
                 <p className="text-gray-400">No posts yet in this category.</p>
               </div>
