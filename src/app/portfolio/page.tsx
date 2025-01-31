@@ -79,11 +79,19 @@ export default function Portfolio() {
     },
     {
       name: "Automorphic",
-      round: "Series A",
+      round: "",
       sectors: ["DevTools", "AI"],
       status: "Active",
       logo: "/automorphic.png",
       url: "https://automorphic.ai/"
+    },
+    {
+      name: "Hebbia",
+      round: "Series B",
+      sectors: ["Enterprise", "AI"],
+      status: "Active",
+      logo: "/hebbia.jpg",
+      url: "https://www.hebbia.com/"
     }
   ];
 
@@ -103,7 +111,12 @@ export default function Portfolio() {
         </nav>
 
         {!isAuthenticated ? (
-          <PasswordProtection onCorrectPassword={() => setIsAuthenticated(true)} />
+          <div className="flex flex-col items-center justify-center min-h-[60vh]">
+            <PasswordProtection 
+              onCorrectPassword={() => setIsAuthenticated(true)} 
+              className="caret-transparent focus:outline-none"
+            />
+          </div>
         ) : (
           <div className="max-w-2xl mx-auto px-6 py-12">
             <h1 className="text-6xl font-bold mb-12 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-center pb-4">

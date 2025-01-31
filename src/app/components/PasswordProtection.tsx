@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Lock } from 'lucide-react';
 
 interface PasswordProtectionProps {
   onCorrectPassword: () => void;
+  className?: string;
 }
 
-export default function PasswordProtection({ onCorrectPassword }: PasswordProtectionProps) {
+export default function PasswordProtection({ onCorrectPassword, className }: PasswordProtectionProps) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,6 +19,13 @@ export default function PasswordProtection({ onCorrectPassword }: PasswordProtec
       setError(true);
       setPassword('');
       setTimeout(() => setError(false), 500);
+    }
+  };
+
+  // Keep focus when clicking outside
+  const handleBlur = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
     }
   };
 
@@ -32,13 +41,15 @@ export default function PasswordProtection({ onCorrectPassword }: PasswordProtec
             <Lock size={20} />
           </div>
           <input
+            ref={inputRef}
             type="text"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onBlur={handleBlur}
             className={`w-full pl-11 pr-4 py-3 bg-gray-900/30 border-0 rounded-lg text-gray-200 
               placeholder-gray-500 focus:outline-none focus:ring-1 
               ${error ? 'ring-1 ring-red-500/50' : 'focus:ring-gray-500'} 
-              transition-all duration-200`}
+              transition-all duration-200 ${className}`}
             placeholder="Enter password"
             autoFocus
           />
