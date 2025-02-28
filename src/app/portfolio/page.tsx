@@ -68,7 +68,14 @@ export default function Portfolio() {
       logo: "/mercor.png",
       url: "https://mercor.com/"
     },
-
+    {
+      name: "TrueFoundry",
+      round: "Series A",
+      sectors: ["DevTools", "AI"],
+      status: "Active",
+      logo: "/truefoundry.png",
+      url: "https://truefoundry.com/"
+    },
     {
       name: "Origin Bio",
       round: "Pre-Seed",
